@@ -66,7 +66,8 @@ export default function HomePage() {
             Taboo Clone
           </h1>
           <p className="mt-3 font-inter text-base text-foreground">
-            500-word deck. Show the word and tap <span className="font-newsreader italic">Get</span> or
+            {TABOO_DECK.length}-word deck from Kovah/Taboo-Data. Show the word and tap{" "}
+            <span className="font-newsreader italic">Get</span> or
             <span className="font-newsreader italic"> Skip</span>.
           </p>
         </header>

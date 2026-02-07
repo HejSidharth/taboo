@@ -1,3 +1,15 @@
+import categories from "./data/taboo/categories.json";
+import animals from "./data/taboo/en/animals.json";
+import cars from "./data/taboo/en/cars.json";
+import cityCountry from "./data/taboo/en/city-country.json";
+import food from "./data/taboo/en/food.json";
+import literature from "./data/taboo/en/literature.json";
+import people from "./data/taboo/en/people.json";
+import sports from "./data/taboo/en/sports.json";
+import things from "./data/taboo/en/things.json";
+import tv from "./data/taboo/en/tv.json";
+import web from "./data/taboo/en/web.json";
+
 export type TabooCard = {
   id: number;
   target: string;
@@ -5,618 +17,93 @@ export type TabooCard = {
   category: string;
 };
 
-const CATEGORY_WORDS: Record<string, string[]> = {
-  Animals: [
-    "lion",
-    "tiger",
-    "elephant",
-    "giraffe",
-    "zebra",
-    "kangaroo",
-    "panda",
-    "dolphin",
-    "shark",
-    "octopus",
-    "penguin",
-    "eagle",
-    "falcon",
-    "owl",
-    "parrot",
-    "rabbit",
-    "hamster",
-    "squirrel",
-    "fox",
-    "wolf",
-    "bear",
-    "deer",
-    "moose",
-    "camel",
-    "koala",
-  ],
-  Food: [
-    "pizza",
-    "burger",
-    "pasta",
-    "sushi",
-    "taco",
-    "burrito",
-    "salad",
-    "sandwich",
-    "omelet",
-    "pancake",
-    "waffle",
-    "steak",
-    "sausage",
-    "lasagna",
-    "noodles",
-    "dumpling",
-    "curry",
-    "paella",
-    "risotto",
-    "brownie",
-    "cookie",
-    "cupcake",
-    "popcorn",
-    "pretzel",
-    "cheesecake",
-  ],
-  Sports: [
-    "soccer",
-    "basketball",
-    "baseball",
-    "football",
-    "tennis",
-    "volleyball",
-    "cricket",
-    "rugby",
-    "hockey",
-    "golf",
-    "boxing",
-    "wrestling",
-    "cycling",
-    "swimming",
-    "running",
-    "marathon",
-    "surfing",
-    "skateboarding",
-    "snowboarding",
-    "badminton",
-    "archery",
-    "fencing",
-    "bowling",
-    "karate",
-    "gymnastics",
-  ],
-  Jobs: [
-    "teacher",
-    "doctor",
-    "nurse",
-    "engineer",
-    "lawyer",
-    "chef",
-    "pilot",
-    "firefighter",
-    "police",
-    "farmer",
-    "artist",
-    "musician",
-    "actor",
-    "writer",
-    "journalist",
-    "dentist",
-    "plumber",
-    "electrician",
-    "carpenter",
-    "designer",
-    "scientist",
-    "pharmacist",
-    "mechanic",
-    "cashier",
-    "librarian",
-  ],
-  Household: [
-    "sofa",
-    "table",
-    "chair",
-    "lamp",
-    "mirror",
-    "blanket",
-    "pillow",
-    "mattress",
-    "closet",
-    "drawer",
-    "stove",
-    "oven",
-    "fridge",
-    "freezer",
-    "toaster",
-    "kettle",
-    "blender",
-    "vacuum",
-    "broom",
-    "mop",
-    "curtain",
-    "carpet",
-    "window",
-    "doorbell",
-    "bookshelf",
-  ],
-  Technology: [
-    "laptop",
-    "keyboard",
-    "mouse",
-    "monitor",
-    "tablet",
-    "smartphone",
-    "charger",
-    "battery",
-    "router",
-    "wifi",
-    "bluetooth",
-    "server",
-    "cloud",
-    "database",
-    "algorithm",
-    "software",
-    "hardware",
-    "browser",
-    "password",
-    "firewall",
-    "robot",
-    "drone",
-    "camera",
-    "microphone",
-    "headphones",
-  ],
-  Travel: [
-    "airport",
-    "airplane",
-    "passport",
-    "ticket",
-    "suitcase",
-    "hotel",
-    "hostel",
-    "beach",
-    "mountain",
-    "island",
-    "museum",
-    "subway",
-    "train",
-    "station",
-    "map",
-    "compass",
-    "backpack",
-    "cruise",
-    "visa",
-    "souvenir",
-    "landmark",
-    "guidebook",
-    "roadtrip",
-    "campsite",
-    "border",
-  ],
-  Nature: [
-    "forest",
-    "river",
-    "waterfall",
-    "desert",
-    "volcano",
-    "glacier",
-    "canyon",
-    "meadow",
-    "valley",
-    "ocean",
-    "reef",
-    "jungle",
-    "rainbow",
-    "sunset",
-    "sunrise",
-    "thunder",
-    "lightning",
-    "breeze",
-    "hurricane",
-    "tornado",
-    "earthquake",
-    "avalanche",
-    "pebble",
-    "flower",
-    "mushroom",
-  ],
-  School: [
-    "notebook",
-    "pencil",
-    "eraser",
-    "marker",
-    "satchel",
-    "locker",
-    "classroom",
-    "homework",
-    "quiz",
-    "exam",
-    "project",
-    "science",
-    "history",
-    "algebra",
-    "geometry",
-    "biology",
-    "chemistry",
-    "physics",
-    "grammar",
-    "library",
-    "semester",
-    "recess",
-    "cafeteria",
-    "principal",
-    "diploma",
-  ],
-  Entertainment: [
-    "movie",
-    "series",
-    "theater",
-    "concert",
-    "festival",
-    "podcast",
-    "comedy",
-    "drama",
-    "thriller",
-    "horror",
-    "documentary",
-    "trailer",
-    "cinema",
-    "director",
-    "screenplay",
-    "character",
-    "episode",
-    "playlist",
-    "karaoke",
-    "boardgame",
-    "puzzle",
-    "arcade",
-    "streaming",
-    "animation",
-    "comic",
-  ],
-  Emotions: [
-    "happiness",
-    "sadness",
-    "anger",
-    "fear",
-    "surprise",
-    "disgust",
-    "pride",
-    "shame",
-    "guilt",
-    "jealousy",
-    "envy",
-    "gratitude",
-    "hope",
-    "anxiety",
-    "stress",
-    "calm",
-    "joy",
-    "love",
-    "trust",
-    "curiosity",
-    "boredom",
-    "excitement",
-    "relief",
-    "nostalgia",
-    "confidence",
-  ],
-  Actions: [
-    "whisper",
-    "shout",
-    "laugh",
-    "cry",
-    "dance",
-    "sing",
-    "jump",
-    "crawl",
-    "sprint",
-    "stumble",
-    "climb",
-    "slide",
-    "throw",
-    "catch",
-    "build",
-    "paint",
-    "cook",
-    "bake",
-    "read",
-    "write",
-    "search",
-    "explore",
-    "negotiate",
-    "celebrate",
-    "applaud",
-  ],
-  Health: [
-    "heartbeat",
-    "pulse",
-    "muscle",
-    "bone",
-    "brain",
-    "lungs",
-    "stomach",
-    "kidney",
-    "vitamin",
-    "protein",
-    "hydration",
-    "exercise",
-    "stretch",
-    "meditation",
-    "therapy",
-    "vaccine",
-    "bandage",
-    "syringe",
-    "clinic",
-    "hospital",
-    "diagnosis",
-    "allergy",
-    "fever",
-    "cough",
-    "headache",
-  ],
-  Clothing: [
-    "jacket",
-    "sweater",
-    "hoodie",
-    "tshirt",
-    "jeans",
-    "shorts",
-    "skirt",
-    "dress",
-    "blazer",
-    "coat",
-    "scarf",
-    "gloves",
-    "socks",
-    "sneakers",
-    "boots",
-    "sandals",
-    "belt",
-    "tie",
-    "cap",
-    "beanie",
-    "helmet",
-    "bracelet",
-    "necklace",
-    "earrings",
-    "sunglasses",
-  ],
-  Transportation: [
-    "car",
-    "truck",
-    "motorcycle",
-    "bicycle",
-    "scooter",
-    "bus",
-    "tram",
-    "ferry",
-    "submarine",
-    "helicopter",
-    "rocket",
-    "spaceship",
-    "taxi",
-    "van",
-    "ambulance",
-    "bulldozer",
-    "tractor",
-    "skate",
-    "kayak",
-    "canoe",
-    "yacht",
-    "wagon",
-    "monorail",
-    "gondola",
-    "rickshaw",
-  ],
-  Finance: [
-    "budget",
-    "salary",
-    "invoice",
-    "receipt",
-    "savings",
-    "deposit",
-    "withdrawal",
-    "interest",
-    "mortgage",
-    "credit",
-    "debit",
-    "wallet",
-    "investment",
-    "stocks",
-    "bonds",
-    "profit",
-    "revenue",
-    "expense",
-    "taxes",
-    "insurance",
-    "startup",
-    "meeting",
-    "deadline",
-    "strategy",
-    "networking",
-  ],
-  CosmosWeather: [
-    "planet",
-    "galaxy",
-    "asteroid",
-    "comet",
-    "satellite",
-    "orbit",
-    "gravity",
-    "telescope",
-    "astronaut",
-    "meteor",
-    "constellation",
-    "eclipse",
-    "solstice",
-    "equinox",
-    "forecast",
-    "humidity",
-    "drizzle",
-    "blizzard",
-    "hail",
-    "fog",
-    "dew",
-    "monsoon",
-    "climate",
-    "ozone",
-    "sunbeam",
-  ],
-  Celebrations: [
-    "birthday",
-    "wedding",
-    "anniversary",
-    "graduation",
-    "halloween",
-    "christmas",
-    "hanukkah",
-    "diwali",
-    "newyear",
-    "easter",
-    "thanksgiving",
-    "parade",
-    "costume",
-    "fireworks",
-    "gift",
-    "invitation",
-    "ceremony",
-    "tradition",
-    "ritual",
-    "celebration",
-    "feast",
-    "banquet",
-    "dancefloor",
-    "confetti",
-    "countdown",
-  ],
-  CityLife: [
-    "sidewalk",
-    "crosswalk",
-    "traffic",
-    "skyscraper",
-    "apartment",
-    "balcony",
-    "elevator",
-    "suburb",
-    "downtown",
-    "billboard",
-    "fountain",
-    "statue",
-    "bridge",
-    "tunnel",
-    "roundabout",
-    "plaza",
-    "market",
-    "bakery",
-    "pharmacy",
-    "stadium",
-    "harbor",
-    "port",
-    "lighthouse",
-    "observatory",
-    "warehouse",
-  ],
-  DailyLife: [
-    "alarm",
-    "calendar",
-    "checklist",
-    "routine",
-    "coffee",
-    "breakfast",
-    "lunch",
-    "dinner",
-    "nap",
-    "shower",
-    "laundry",
-    "groceries",
-    "coupon",
-    "package",
-    "delivery",
-    "recycling",
-    "garden",
-    "pet",
-    "vacation",
-    "weekend",
-    "selfie",
-    "notepad",
-    "flashlight",
-    "umbrella",
-    "keychain",
-  ],
+type CategoryMeta = {
+  text: string;
 };
 
-const CATEGORY_HINTS: Record<string, string[]> = {
-  Animals: ["wild", "zoo", "pet", "fur", "nature"],
-  Food: ["eat", "kitchen", "flavor", "meal", "plate"],
-  Sports: ["team", "match", "score", "coach", "athlete"],
-  Jobs: ["work", "career", "office", "salary", "skills"],
-  Household: ["home", "room", "furniture", "clean", "daily"],
-  Technology: ["digital", "internet", "device", "screen", "code"],
-  Travel: ["trip", "journey", "tourist", "destination", "adventure"],
-  Nature: ["outdoor", "earth", "land", "weather", "environment"],
-  School: ["study", "student", "teacher", "lesson", "education"],
-  Entertainment: ["show", "music", "fun", "stage", "audience"],
-  Emotions: ["feeling", "mind", "heart", "reaction", "mood"],
-  Actions: ["move", "do", "perform", "motion", "activity"],
-  Health: ["body", "doctor", "medicine", "care", "wellness"],
-  Clothing: ["wear", "fashion", "outfit", "fabric", "style"],
-  Transportation: ["vehicle", "travel", "road", "ride", "speed"],
-  Finance: ["money", "business", "bank", "cost", "economy"],
-  CosmosWeather: ["sky", "space", "atmosphere", "season", "temperature"],
-  Celebrations: ["party", "event", "holiday", "family", "special"],
-  CityLife: ["urban", "street", "building", "public", "crowd"],
-  DailyLife: ["habit", "schedule", "everyday", "home", "task"],
+type CategoriesByLanguage = {
+  en: Record<string, CategoryMeta>;
 };
 
-function getNeighborWords(words: string[], index: number) {
-  const offsets = [1, 2, 3, -1, -2, 4, -3];
-  return offsets.map((offset) => words[(index + offset + words.length) % words.length]);
+type RawCategoryCards = Record<string, string[]>;
+
+const CATEGORY_LABELS = (categories as CategoriesByLanguage).en;
+
+const CATEGORY_SOURCES: Record<string, RawCategoryCards> = {
+  animals: animals as RawCategoryCards,
+  cars: cars as RawCategoryCards,
+  "city-country": cityCountry as RawCategoryCards,
+  food: food as RawCategoryCards,
+  literature: literature as RawCategoryCards,
+  people: people as RawCategoryCards,
+  sports: sports as RawCategoryCards,
+  things: things as RawCategoryCards,
+  tv: tv as RawCategoryCards,
+  web: web as RawCategoryCards,
+};
+
+function normalizeWord(value: string) {
+  return value.trim().toLowerCase();
 }
 
-function makeTabooList(category: string, words: string[], index: number) {
-  const target = words[index];
-  const taboo = new Set<string>();
-
-  for (const guess of getNeighborWords(words, index)) {
-    if (guess !== target) {
-      taboo.add(guess);
-    }
-    if (taboo.size === 5) {
-      break;
-    }
+function cleanTabooWords(target: string, tabooWords: unknown) {
+  if (!Array.isArray(tabooWords)) {
+    return [];
   }
 
-  if (taboo.size < 5) {
-    for (const hint of CATEGORY_HINTS[category]) {
-      if (hint !== target) {
-        taboo.add(hint);
-      }
-      if (taboo.size === 5) {
-        break;
-      }
+  const normalizedTarget = normalizeWord(target);
+  const seen = new Set<string>();
+  const cleaned: string[] = [];
+
+  for (const tabooWord of tabooWords) {
+    if (typeof tabooWord !== "string") {
+      continue;
     }
+
+    const trimmed = tabooWord.trim();
+    if (!trimmed) {
+      continue;
+    }
+
+    const normalized = normalizeWord(trimmed);
+    if (normalized === normalizedTarget || seen.has(normalized)) {
+      continue;
+    }
+
+    seen.add(normalized);
+    cleaned.push(trimmed);
   }
 
-  return Array.from(taboo).slice(0, 5);
+  return cleaned;
 }
 
-function buildDeck(): TabooCard[] {
+function buildDeck() {
   const deck: TabooCard[] = [];
   let id = 1;
 
-  for (const [category, words] of Object.entries(CATEGORY_WORDS)) {
-    words.forEach((target, index) => {
+  for (const [categoryKey, categoryConfig] of Object.entries(CATEGORY_LABELS)) {
+    const source = CATEGORY_SOURCES[categoryKey];
+
+    if (!source) {
+      continue;
+    }
+
+    for (const [target, tabooWords] of Object.entries(source)) {
+      const cleanTarget = target.trim();
+
+      if (!cleanTarget) {
+        continue;
+      }
+
       deck.push({
         id,
-        target,
-        category,
-        taboo: makeTabooList(category, words, index),
+        target: cleanTarget,
+        taboo: cleanTabooWords(cleanTarget, tabooWords),
+        category: categoryConfig.text,
       });
+
       id += 1;
-    });
+    }
   }
 
   return deck;
@@ -624,10 +111,8 @@ function buildDeck(): TabooCard[] {
 
 export const TABOO_DECK = buildDeck();
 
-if (process.env.NODE_ENV !== "production") {
-  if (TABOO_DECK.length !== 500) {
-    throw new Error(`Expected 500 cards, found ${TABOO_DECK.length}.`);
-  }
+if (process.env.NODE_ENV !== "production" && TABOO_DECK.length === 0) {
+  throw new Error("Taboo deck is empty. Failed to load source data.");
 }
 
 export function shuffleCards(cards: TabooCard[]) {
