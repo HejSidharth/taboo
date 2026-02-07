@@ -6,19 +6,21 @@ import { Check, RotateCcw, SkipForward } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TABOO_DECK, shuffleCards } from "@/lib/word-repo";
+import { TABOO_DECK, TabooCard, shuffleCards } from "@/lib/word-repo";
 
-function buildWordDeck() {
-  return shuffleCards(TABOO_DECK).map((card) => card.target);
+function buildWordDeck(): TabooCard[] {
+  return shuffleCards(TABOO_DECK);
 }
 
 export default function HomePage() {
-  const [deck, setDeck] = useState<string[]>(() => buildWordDeck());
+  const [deck, setDeck] = useState<TabooCard[]>(() => buildWordDeck());
   const [index, setIndex] = useState(0);
   const [got, setGot] = useState(0);
   const [skipped, setSkipped] = useState(0);
 
-  const currentWord = deck.length > 0 ? deck[index % deck.length] : "word";
+  const currentCard = deck.length > 0 ? deck[index % deck.length] : null;
+  const currentWord = currentCard?.target ?? "word";
+  const tabooWords = currentCard?.taboo ?? [];
   const totalPlayed = got + skipped;
   const accuracy = useMemo(
     () => (totalPlayed === 0 ? 0 : Math.round((got / totalPlayed) * 100)),
@@ -104,6 +106,22 @@ export default function HomePage() {
               <p className="break-words font-inter text-4xl font-bold uppercase tracking-wide sm:text-5xl">
                 {currentWord}
               </p>
+            </div>
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950/30">
+              <p className="mb-2 text-center font-newsreader text-sm italic text-red-600 dark:text-red-400">
+                Taboo Words (Don&apos;t Say These!)
+              </p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {tabooWords.map((word, i) => (
+                  <Badge
+                    key={i}
+                    variant="secondary"
+                    className="bg-red-100 px-3 py-1 font-inter text-sm font-semibold uppercase text-red-700 dark:bg-red-900/50 dark:text-red-300"
+                  >
+                    {word}
+                  </Badge>
+                ))}
+              </div>
             </div>
           </CardContent>
         </Card>
