@@ -90,15 +90,16 @@ function buildDeck() {
 
     for (const [target, tabooWords] of Object.entries(source)) {
       const cleanTarget = target.trim();
+      const cleanTaboo = cleanTabooWords(cleanTarget, tabooWords);
 
-      if (!cleanTarget) {
+      if (!cleanTarget || cleanTaboo.length === 0) {
         continue;
       }
 
       deck.push({
         id,
         target: cleanTarget,
-        taboo: cleanTabooWords(cleanTarget, tabooWords),
+        taboo: cleanTaboo,
         category: categoryConfig.text,
       });
 
